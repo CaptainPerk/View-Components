@@ -13,6 +13,7 @@ namespace UsingViewComponents.Components
             _cityRepository = cityRepository;
         }
 
-        public string Invoke() => $"{_cityRepository.Cities.Count()} cities, {_cityRepository.Cities.Sum(c => c.Population)} people.";
+        public IViewComponentResult Invoke() => 
+            View(new CityViewModel {Cities = _cityRepository.Cities.Count(), Population = _cityRepository.Cities.Sum(c => c.Population)});
     }
 }
