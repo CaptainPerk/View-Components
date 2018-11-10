@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
-using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Mvc.ViewComponents;
 using UsingViewComponents.Models;
 
 namespace UsingViewComponents.Components
@@ -15,6 +13,11 @@ namespace UsingViewComponents.Components
             _cityRepository = cityRepository;
         }
 
-        public IViewComponentResult Invoke() => new HtmlContentViewComponentResult(new HtmlString("This is a <h3><i>string</i></h3>"));
+        public IViewComponentResult Invoke()
+        {
+            string target = RouteData.Values["id"] as string;
+            var cities = _cityRepository.Cities.Where(c => target == null || string.Compare(c.Country, target, true) == 0);
+            return View(new CityViewModel {Cities = cities.Count(), Population = cities.Sum(c => c.Population)});
+        }
     }
 }
