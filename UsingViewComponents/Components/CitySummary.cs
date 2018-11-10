@@ -13,11 +13,8 @@ namespace UsingViewComponents.Components
             _cityRepository = cityRepository;
         }
 
-        public IViewComponentResult Invoke()
-        {
-            string target = RouteData.Values["id"] as string;
-            var cities = _cityRepository.Cities.Where(c => target == null || string.Compare(c.Country, target, true) == 0);
-            return View(new CityViewModel {Cities = cities.Count(), Population = cities.Sum(c => c.Population)});
-        }
+        public IViewComponentResult Invoke(bool showList) => showList ? 
+            View("CityList", _cityRepository.Cities) : 
+            View(new CityViewModel {Cities = _cityRepository.Cities.Count(), Population = _cityRepository.Cities.Sum(c => c.Population)});        
     }
 }
