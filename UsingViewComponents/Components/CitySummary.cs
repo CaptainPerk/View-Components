@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Mvc.ViewComponents;
 using UsingViewComponents.Models;
 
 namespace UsingViewComponents.Components
@@ -13,7 +15,6 @@ namespace UsingViewComponents.Components
             _cityRepository = cityRepository;
         }
 
-        public IViewComponentResult Invoke() => 
-            View(new CityViewModel {Cities = _cityRepository.Cities.Count(), Population = _cityRepository.Cities.Sum(c => c.Population)});
+        public IViewComponentResult Invoke() => new HtmlContentViewComponentResult(new HtmlString("This is a <h3><i>string</i></h3>"));
     }
 }
